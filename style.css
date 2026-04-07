@@ -1,89 +1,26 @@
-body {
-    font-family: Arial;
-    text-align: center;
-    margin: 5em;
-    height: 100vh;
-    background: radial-gradient(circle at center, #437eb5 0%, #e7e7e7 70%);
-}
+function play(playerChoice) {
+    const robot = robotChoice();
+    let resultMessage = "";
 
-/* Screens */
-header div,
-body div {
-    margin-top: 100px;
-}
+    if (playerChoice === robot) {
+        resultMessage = "Gelijkspel";
+    } else if (
+        (playerChoice === "rock" && robot === "scissors") ||
+        (playerChoice === "paper" && robot === "rock") ||
+        (playerChoice === "scissors" && robot === "paper")
+    ) {
+        resultMessage = Goed gedaan ${playerName}! Jij wint 🎉;
+        playerScore++;
 
-/* Hidden state */
-[hidden] {
-    display: none;
-}
+        // Confetti bij winst
+        launchConfetti();
 
-/* Robot */
-header div div:first-of-type {
-    font-size: 100px;
-    animation: float 1.5s infinite alternate;
-}
-
-@keyframes float {
-    from {
-        transform: translateY(0);
+    } else {
+        resultMessage = "De robot wint 🤖";
+        robotScore++;
     }
 
-    to {
-        transform: translateY(-20px);
-    }
-}
+    resultText.innerText = ${resultMessage} (${playerChoice} vs ${robot});
 
-/* Input */
-input {
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 8px;
-    border: none;
-}
-
-/* Button */
-button {
-    padding: 12px 25px;
-    margin: 10px;
-    font-size: 18px;
-    border-radius: 10px;
-    border: none;
-    cursor: pointer;
-    background: #011007;
-    color: white;
-    transition: background-color 0.3s, transform 0.2s;
-}
-
-button:hover {
-    background: #abb4b2;
-    transform: scale(1.1);
-}
-
-/* Choices container */
-body div div:first-of-type {
-    margin-top: 30px;
-}
-
-/* Choices images */
-body div div:first-of-type img {
-    width: 100px;
-    margin: 15px;
-    cursor: pointer;
-    transition: transform 0.2s;
-}
-
-body div div:first-of-type img:hover {
-    transform: scale(1.2);
-}
-
-/* Result */
-#result {
-    margin-top: 20px;
-    font-size: 22px;
-}
-
-/* Score */
-#score {
-    margin-top: 10px;
-    font-size: 20px;
+    updateScore();
 }

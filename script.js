@@ -1,105 +1,41 @@
-// -----------------------------
-// Variabelen voor spelstatus
-// -----------------------------
-let playerName = "";
-let playerScore = 0;
-let robotScore = 0;
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Robot Machine</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
 
-// -----------------------------
-// DOM-elementen opslaan
-// Dit maakt de code netter en voorkomt herhaling
-// -----------------------------
-const startScreen = document.getElementById("startScreen");
-const gameScreen = document.getElementById("gameScreen");
-const nameInput = document.getElementById("nameInput");
-const welcomeText = document.getElementById("welcomeText");
-const resultText = document.getElementById("result");
-const scoreText = document.getElementById("score");
+  <body>
+    <header>
+      <h1>Rock, Paper, Scissors</h1>
 
-// Mogelijke keuzes van het spel
-const choices = ["rock", "paper", "scissors"];
+      <div id="startScreen">
+        <div>🤖</div>
+        <h2>Hi speler!</h2>
+        <p>Voer je naam in:</p>
 
-// -----------------------------
-// Confetti effect bij winst
-// -----------------------------
-function launchConfetti() {
-    confetti({
-        particleCount: 100,
-        spread: 70,
-        origin: { x: 0.5, y: 0.5 }
-    });
-}
+        <input type="text" id="nameInput" placeholder="Jouw naam...">
+        <button onclick="startGame()">Start</button>
+      </div>
+    </header>
 
+    <div id="gameScreen" hidden>
+      <h2 id="welcomeText"></h2>
 
-// -----------------------------
-// Start het spel
-// Controleert of de gebruiker een naam heeft ingevuld
-// Daarna wisselt het scherm van startscherm naar gamescherm
-// -----------------------------
-function startGame() {
-    const inputValue = nameInput.value.trim();
+      <div>
+        <img src="img/rock.png" onclick="play('rock')" />
+        <img src="img/paper.png" onclick="play('paper')" />
+        <img src="img/scissors.png" onclick="play('scissors')" />
+      </div>
 
-    if (inputValue === "") {
-        alert("Vul je naam in!");
-        return;
-    }
+      <div id="result">Maak je keuze!</div>
+      <div id="score">0 - 0</div>
+    </div>
 
-    playerName = inputValue;
-
-    // DOM manipulatie: schermen tonen/verbergen
-    startScreen.hidden = true;
-    gameScreen.hidden = false;
-
-    // DOM manipulatie: welkomsttekst aanpassen
-    welcomeText.innerText = `Succes ${playerName}! Versla robot machine 🤖`;
-
-    // Score direct goed tonen bij de start
-    updateScore();
-}
-
-// -----------------------------
-// Bepaalt willekeurig de keuze van de robot
-// Math.random kiest een random index uit de array
-// -----------------------------
-function robotChoice() {
-    const randomIndex = Math.floor(Math.random() * choices.length);
-    return choices[randomIndex];
-}
-
-// -----------------------------
-// Werkt de scoreweergave bij in de DOM
-// -----------------------------
-function updateScore() {
-    scoreText.innerText = `${playerName}: ${playerScore} | Robot: ${robotScore}`;
-}
-
-// -----------------------------
-// Bepaalt wie wint op basis van de keuze van de speler
-// en de willekeurige keuze van de robot
-// -----------------------------
-function play(playerChoice) {
-    const robot = robotChoice();
-    let resultMessage = "";
-
-    if (playerChoice === robot) {
-        resultMessage = "Gelijkspel";
-    } else if (
-        (playerChoice === "rock" && robot === "scissors") ||
-        (playerChoice === "paper" && robot === "rock") ||
-        (playerChoice === "scissors" && robot === "paper")
-    ) {
-        resultMessage = `Goed gedaan ${playerName}! Jij wint 🎉`;
-        playerScore++;
-
-        // 🎉 Confetti bij winst
-        launchConfetti();
-
-    } else {
-        resultMessage = "De robot wint 🤖";
-        robotScore++;
-    }
-
-    resultText.innerText = `${resultMessage} (${playerChoice} vs ${robot})`;
-
-    updateScore();
-}
+    <!--bron: https://www.youtube.com/watch?v=k5BJoJ9bRBE confetti tutorial-->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
